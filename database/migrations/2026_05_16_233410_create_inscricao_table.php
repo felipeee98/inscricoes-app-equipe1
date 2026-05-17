@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inscricaos', function (Blueprint $table) {
             $table->id();
-            $table->string('caminho_fica_inscricao');
+            $table->string('caminho_ficha_inscricao');
             $table->string('caminho_identidade');
             $table->string('caminho_diploma');
             $table->string('caminho_curriculo_lattes');
@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('caminho_certificado_militar');
             $table->tinyInteger('vaga_pcd');
             $table->tinyInteger('vaga_pniq');
-            $table->foreignId('edital_id')->constrained('edital');
-            $table->foreignId('candidato_id')->constrained('candidato');
+            $table->foreignId('edital_id')->constrained('editals', 'id');
+            $table->foreignId('candidato_id')->constrained('candidatos','id');
+            $table->timestamps();
         });
     }
 

@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('senha');
             $table->rememberToken();
-            $table->foreignId('tipo_usuario_id')->constrained('tipo_usuario');
+            $table->foreignId('tipo_usuario_id')->constrained('tipo_usuarios', 'id');
+            $table->timestamps();
         });
     }
 

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->date('data_fim_inscr');
             $table->date('data_inicio_rev');
             $table->date('data_fim_rev');
+            $table->timestamps();
         });
     }
 

@@ -12,7 +12,8 @@ return new class extends Migration {
             $table->id();
             $table->string('cpf');
             $table->date('data_nascimento');
-            $table->foreignId('usuario_id')->constrained('usuario');
+            $table->foreignId('usuer_id')->constrained('users', 'id');
+            $table->timestamps();
         });
     }
 

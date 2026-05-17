@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
 
     {
-        Schema::create('candidato', function (Blueprint $table) {
+        Schema::create('candidatos', function (Blueprint $table) {
             $table->id();
             $table->string('cpf');
             $table->date('data_nascimento');
@@ -18,7 +18,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('candidato');
+        Schema::dropIfExists('candidatos');
     }
 }
 ;

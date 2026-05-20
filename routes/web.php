@@ -7,4 +7,8 @@ require __DIR__.'/Candidato.php';
 
 Route::get('/', function () {
     return view('welcome');
+    // Rota de teste
+Route::get('/painel-admin', function () {
+    return "Se você está vendo isso, você é um Administrador!";
+})->middleware(['auth', 'admin']);
 });

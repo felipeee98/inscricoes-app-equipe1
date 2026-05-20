@@ -1,9 +1,12 @@
 <?php
 use Illuminate\Support\Facedes\Route;
 
-Route::middleware(['auth','perfil:admin'])->group(function(){
+Route::middleware(['auth','admin'])->group(function(){
 
-    Route::get('/admin/dashboard');
+    Route::get('/admin/dashboard',funcion(){
+       return view('admin.dashboard');
+
+    
 
    });
 

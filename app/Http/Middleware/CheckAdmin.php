@@ -15,6 +15,9 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            abort(403, 'Acesso restrito a administradores.');
+        }
         return $next($request);
     }
 }

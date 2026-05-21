@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('historico_inscricoes', function (Blueprint $table) {
             $table->id();
             $table->string('observacao');
-            $table->foreignId('inscricao_id')->constrained('inscricao');
-            $table->foreignId('inscricao_status_id')->constrained('inscricao_status');
+            $table->foreignId('inscricao_id')->constrained('inscricaos','id');
+            $table->foreignId('inscricao_status_id')->constrained('inscricao_statuss','id');
+            $table->timestamps();
         });
     }
 

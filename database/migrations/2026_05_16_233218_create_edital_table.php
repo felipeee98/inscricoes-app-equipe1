@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('edital', function (Blueprint $table) {
+        Schema::create('editals', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('descricao');
@@ -15,12 +15,13 @@ return new class extends Migration {
             $table->date('data_fim_inscr');
             $table->date('data_inicio_rev');
             $table->date('data_fim_rev');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('edital');
+        Schema::dropIfExists('editals');
     }
 }
 ;

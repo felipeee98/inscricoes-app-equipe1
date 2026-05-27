@@ -1,115 +1,95 @@
-#!/bin/bash
+@echo off
 
-set -e
+echo ========================================
+echo Inicializando projeto Laravel
+echo ========================================
 
-# ========================================
-# Cores
-# ========================================
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+echo.
+echo Instalando dependencias PHP...
+call composer install --no-interaction
 
-echo -e "${GREEN}"
-echo "========================================"
-echo "🚀 Inicializando projeto Laravel"
-echo "========================================"
-echo -e "${NC}"
+echo.
+if not exist ".env" (
+    echo Criando .env a partir do .env.example...
+    copy .env.example .env
+)
 
-# ========================================
-# Verificações
-# ========================================
+echo.
+echo ========================================
+echo Configure o arquivo .env:
+echo.
+echo DB_DATABASE=
+echo DB_USERNAME=
+echo DB_PASSWORD=
+echo ========================================
 
-if ! command -v composer &> /dev/null; then
-    echo -e "${RED}❌ Composer não encontrado.${NC}"
-    exit 1
-fi
+pause
 
-if ! command -v php &> /dev/null; then
-    echo -e "${RED}❌ PHP não encontrado.${NC}"
-    exit 1
-fi
+echo.
+echo Gerando APP_KEY...
+call php artisan key:generate
 
-if ! command -v npm &> /dev/null; then
-    echo -e "${RED}❌ NPM não encontrado.${NC}"
-    exit 1
-fi
+echo.
+echo Limpando caches...
+call php artisan optimize:clear
 
-# ========================================
-# Composer
-# ========================================
+echo.
+echo ========================================
+echo Escolha uma opcao para o banco:
+echo.
+echo 1. Rodar migrate
+echo 2. Rodar migrate:fresh
+echo 3. Rodar migrate --seed
+echo 4. Rodar migrate:fresh --seed
+echo 5. Pular etapa do banco
+echo ========================================
 
-echo -e "${YELLOW}📦 Instalando dependências PHP...${NC}"
-composer install --no-interaction
+set /p DB_OPTION=Digite a opcao (1-5): 
 
-# ========================================
-# .env
-# ========================================
+if "%DB_OPTION%"=="1" (
+    echo.
+    echo Rodando migrations...
+    call php artisan migrate
+)
 
-if [ ! -f ".env" ]; then
+if "%DB_OPTION%"=="2" (
+    echo.
+    echo Rodando migrate:fresh...
+    call php artisan migrate:fresh
+)
 
-    if [ ! -f ".env.example" ]; then
-        echo -e "${RED}❌ .env.example não encontrado.${NC}"
-        exit 1
-    fi
+if "%DB_OPTION%"=="3" (
+    echo.
+    echo Rodando migrate com seed...
+    call php artisan migrate --seed
+)
 
-    echo -e "${YELLOW}⚠️ Criando .env a partir do .env.example...${NC}"
-    cp .env.example .env
-fi
+if "%DB_OPTION%"=="4" (
+    echo.
+    echo Rodando migrate:fresh com seed...
+    call php artisan migrate:fresh --seed
+)
 
-echo -e "${BLUE}"
-echo "========================================"
-echo "⚠️ Configure o arquivo .env:"
-echo ""
-echo "DB_DATABASE="
-echo "DB_USERNAME="
-echo "DB_PASSWORD="
-echo "========================================"
-echo -e "${NC}"
+if "%DB_OPTION%"=="5" (
+    echo.
+    echo Etapa do banco ignorada.
+)
 
-read -p "Pressione ENTER após configurar o .env..."
+echo.
+echo Instalando dependencias frontend...
+call cmd /c npm install
 
-# ========================================
-# Laravel
-# ========================================
+echo.
+echo Buildando assets...
+call cmd /c npm run build
 
-echo -e "${YELLOW}🔑 Gerando APP_KEY...${NC}"
-php artisan key:generate
+echo.
+echo ========================================
+echo Projeto pronto!
+echo ========================================
 
-echo -e "${YELLOW}🧹 Limpando caches...${NC}"
-php artisan optimize:clear
+echo.
+echo Para iniciar o servidor:
+echo php artisan serve
 
-# ========================================
-# Banco
-# ========================================
-
-read -p "Deseja rodar as migrations? (s/n): " RUN_MIGRATIONS
-
-if [[ "$RUN_MIGRATIONS" =~ ^[Ss]$ ]]; then
-    echo -e "${YELLOW}🗄️ Rodando migrations...${NC}"
-    php artisan migrate
-fi
-
-# ========================================
-# Frontend
-# ========================================
-
-echo -e "${YELLOW}📦 Instalando dependências frontend...${NC}"
-npm install
-
-echo -e "${YELLOW}⚡ Buildando assets...${NC}"
-npm run build
-
-# ========================================
-# Finalização
-# ========================================
-
-echo -e "${GREEN}"
-echo "========================================"
-echo "✅ Projeto pronto!"
-echo "========================================"
-echo -e "${NC}"
-
-echo -e "${BLUE}Para iniciar o servidor:${NC}"
-echo "php artisan serve"
+pause

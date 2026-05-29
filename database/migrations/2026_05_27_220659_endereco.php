@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string("cidade");
             $table->string("telefone");
             $table->string("celular");
+            $table->foreignId('candidato_id')->constrained('candidatos','id');
             $table->timestamps();
         });
     }
